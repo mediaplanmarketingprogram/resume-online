@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="./">
+  <title>Theo Chui — Resume</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="./resume.js?v=3"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .section-rule { border-top: 1.5px solid #cbd5e1; }
+    @media print {
+      .no-print { display: none; }
+      body { background: white; }
+      .print-page { box-shadow: none; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen py-10 px-4">
+
+  <!-- Print button -->
+  <div class="no-print max-w-5xl mx-auto mb-4 flex justify-end">
+    <button onclick="window.print()" class="text-sm px-4 py-2 bg-slate-700 text-white rounded hover:bg-slate-800 transition">
+      Print / Save PDF
+    </button>
+  </div>
+
+  <!-- Resume card -->
+  <div class="print-page max-w-5xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden" id="resume"></div>
+
+  <script>
+    const R = RESUME;
+
+    function tag(el, cls, html) {
+      return `<${el} class="${cls}">${html}</${el}>`;
+    }
+
+    // ── HEADER ──────────────────────────────────────────────────────────────
+    function renderHeader() {
+      return `
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 p-8 pb-6 bg-gradient-to-br from-slate-800 to-slate-700 text-white">
+          <img src="${R.photo}" alt="${R.name}" class="w-28 h-28 rounded-full object-cover border-4 border-slate-500 shadow-md flex-shrink-0">
+          <div class="text-center md:text-left">
+            <h1 class="text-3xl font-bold tracking-tight">${R.name}</h1>
+            <p class="text-slate-300 mt-1 text-sm leading-relaxed">${R.title}</p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-3 text-xs text-slate-400">
+              <span>📍 ${R.location}</span>
+              <a href="mailto:${R.email}" class="hover:text-white transition">✉ ${R.email}</a>
+              <a href="${R.linkedinUrl}" target="_blank" class="hover:text-white transition">🔗 ${R.linkedin}</a>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // ── SECTION HEADING ──────────────────────────────────────────────────────
+    function sectionHead(title) {
+      return `
+        <div class="section-rule pt-5 mb-4">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">${title}</h2>
+        </div>`;
+    }
+
+    // ── SUMMARY ─────────────────────────────────────────────────────────────
+    function renderSummary() {
+      return `
+        <section>
+          ${sectionHead("Professional Summary")}
+          <p class="text-sm text-slate-600 leading-relaxed">${R.summary}</p>
+        </section>`;
+    }
+
+    // ── SKILLS ───────────────────────────────────────────────────────────────
+    function renderSkills() {
+      const rows = Object.entries(R.skills).map(([cat, items]) => `
+        <div class="mb-2">
+          <span class="text-xs font-semibold text-slate-700">${cat}: </span>
+          <span class="text-xs text-slate-600">${items.join(' · ')}</span>
+        </div>`).join('');
+      return `
+        <section>
+          ${sectionHead("Core Skills")}
+          ${rows}
+        </section>`;
+    }
+
+    // ── EXPERIENCE ───────────────────────────────────────────────────────────
+    function renderExperience() {
+      const jobs = R.experience.map(job => {
+        const bullets = job.bullets.length
+          ? `<p class="mt-2 text-sm text-slate-600 leading-relaxed">${job.bullets[0]}</p>` +
+            (job.bullets.length > 1
+              ? `<ul class="mt-1 space-y-1 list-disc list-outside pl-4">
+              ${job.bullets.slice(1).map(b => `<li class="text-sm text-slate-600 leading-relaxed">${b}</li>`).join('')}
+            </ul>`
+              : '')
+          : '';
+        return `
+          <div class="mb-5">
+            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5">
+              <h3 class="text-sm font-semibold text-slate-800">${job.title}</h3>
+              <span class="text-xs text-slate-400 whitespace-nowrap">${job.period}</span>
+            </div>
+            <p class="text-xs font-medium text-blue-600 mt-0.5">${job.company}</p>
+            ${bullets}
+          </div>`;
+      }).join('');
+      return `
+        <section>
+          ${sectionHead("Work Experience")}
+          ${jobs}
+        </section>`;
+    }
+
+    // ── EDUCATION ────────────────────────────────────────────────────────────
+    function renderEducation() {
+      const items = R.education.map(e => `
+        <div class="mb-2 text-sm">
+          <span class="font-semibold text-slate-800">${e.institution}</span>
+          <span class="text-slate-500"> — ${e.degree}</span>
+        </div>`).join('');
+      return `
+        <section>
+          ${sectionHead("Education")}
+          ${items}
+        </section>`;
+    }
+
+    // ── CERTIFICATIONS ───────────────────────────────────────────────────────
+    function renderCerts() {
+      const items = R.certifications.map(c => `
+        <div class="flex items-center gap-2 mb-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+          <span class="text-sm text-slate-700">${c.name}</span>
+          <span class="text-xs text-slate-400">(${c.issuer})</span>
+        </div>`).join('');
+      return `
+        <section>
+          ${sectionHead("Certifications")}
+          ${items}
+        </section>`;
+    }
+
+    // ── RENDER ───────────────────────────────────────────────────────────────
+    document.getElementById('resume').innerHTML = `
+      ${renderHeader()}
+      <div class="p-8 pt-6 space-y-2">
+        ${renderSummary()}
+        ${renderSkills()}
+        ${renderExperience()}
+        ${renderEducation()}
+        ${renderCerts()}
+      </div>
+    `;
+  </script>
+
+</body>
+</html>
