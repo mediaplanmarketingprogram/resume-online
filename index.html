@@ -478,15 +478,6 @@ window.addEventListener('message', e => {
 });
 window.parent.postMessage({ type: '__edit_mode_available' }, '*');
 
-// Build email link at runtime to bypass Cloudflare obfuscation
-(function() {
-  var u = 'theockh7';
-  var d = 'gmail';
-  var t = 'com';
-  var el = document.getElementById('emailLink');
-  if (el) el.href = 'mai' + 'lto:' + u + '\x40' + d + '.' + t;
-})();
-
 // Apply defaults
 setRadius(state.radius);
 setBg(state.bg);
