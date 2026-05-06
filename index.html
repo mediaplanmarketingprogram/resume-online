@@ -22,7 +22,6 @@
 
     .page { max-width: 900px; margin: 0 auto; padding: 48px 20px 72px; display: flex; flex-direction: column; gap: 20px; }
 
-    /* ── Cards ── */
     .card {
       background: white;
       border: 1px solid #e9e5df;
@@ -55,7 +54,6 @@
     }
     .card-hero > * { position: relative; }
 
-    /* ── Section labels ── */
     .section-label {
       font-size: 10px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.2em;
@@ -72,7 +70,6 @@
       color: #0a66c2; margin-bottom: 20px;
     }
 
-    /* ── Hero ── */
     .hero-inner { display: flex; gap: 28px; align-items: flex-start; }
     .hero-photo {
       width: 88px; height: 88px;
@@ -102,16 +99,45 @@
       padding: 5px 14px;
       font-size: 12px; font-weight: 600; color: #38434f;
       text-decoration: none;
-      transition: border-color 0.15s, color 0.15s;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
     .pill-link:hover { border-color: #0a66c2; color: #0a66c2; }
+    .pill-link.copied {
+      border-color: #0a66c2;
+      color: #0a66c2;
+      background: #eef4fc;
+    }
+
+    #copyToast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px) scale(0.96);
+      background: #1d2226;
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        opacity 0.28s ease,
+        transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    }
+    #copyToast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
     .intent-text {
       font-size: 14px; line-height: 1.7;
       color: #38434f; font-style: italic;
       margin-top: 16px; max-width: 620px;
     }
 
-    /* ── Pillars ── */
     .pillars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 44px; }
     .pillar-label {
       font-size: 10px; font-weight: 700;
@@ -120,7 +146,6 @@
     }
     .pillar-text { font-size: 12px; color: #38434f; line-height: 1.55; }
 
-    /* ── Experience ── */
     .exp-header {
       display: flex;
       justify-content: space-between;
@@ -149,16 +174,13 @@
     .exp-bullet { font-size: 12px; color: #38434f; line-height: 1.65; }
     .exp-bullet strong { color: #1d2226; display: block; margin-bottom: 1px; font-size: 12px; }
 
-    /* ── Two-col bottom ── */
     .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-    /* ── Education ── */
     .edu-item { padding-left: 12px; margin-bottom: 10px; }
     .edu-item:last-child { margin-bottom: 0; }
     .edu-degree { font-size: 12px; font-weight: 700; color: #1d2226; }
     .edu-school { font-size: 11px; color: #6d6860; margin-top: 1px; }
 
-    /* ── Tags ── */
     .tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .tag {
       background: #f3f2f0; color: #38434f;
@@ -168,7 +190,6 @@
       border: 1px solid #e9e5df;
     }
 
-    /* ── Skills ── */
     .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .skill-group-label {
       font-size: 10px; font-weight: 700;
@@ -176,7 +197,6 @@
       color: #0a66c2; margin-bottom: 8px;
     }
 
-    /* ── Tweaks panel ── */
     .tweaks-panel {
       position: fixed; bottom: 24px; right: 24px;
       background: white; border: 1px solid #e9e5df;
@@ -209,6 +229,7 @@
 
     @media (max-width: 640px) {
       .card, .card-dark, .card-hero { padding: 24px 20px; }
+      .hero-inner { gap: 18px; }
       .hero-name { font-size: 30px; }
       .hero-photo { width: 64px; height: 64px; }
       .pillars-grid { grid-template-columns: 1fr; }
@@ -220,7 +241,6 @@
 <body>
 <div class="page">
 
-  <!-- HERO -->
   <header class="card-hero">
     <div class="hero-inner">
       <img class="hero-photo" src="assets/profile.png" alt="Theo Chui" />
@@ -239,7 +259,6 @@
     </div>
   </header>
 
-  <!-- STRATEGIC PILLARS -->
   <section class="card-dark">
     <div class="section-label-dark">Strategic Pillars</div>
     <div class="pillars-grid">
@@ -253,16 +272,15 @@
       </div>
       <div>
         <div class="pillar-label">Data &amp; Automation</div>
-        <div class="pillar-text">SQL (BigQuery) · Python · Data Studio · BI Dashboarding · Tagging Audits · n8n · Claude </div>
+        <div class="pillar-text">SQL (BigQuery) · Python · Data Studio · BI Dashboarding · Tagging Audits · n8n · Claude</div>
       </div>
       <div>
         <div class="pillar-label">Digital Performance</div>
-        <div class="pillar-text">Full-Funnel Optimization · Google Ads · GMP · GA4 · GTM · Beta Adoption & Evaluation</div>
+        <div class="pillar-text">Full-Funnel Optimization · Google Ads · GMP · GA4 · GTM · Beta Adoption &amp; Evaluation</div>
       </div>
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
   <section>
     <div class="section-label-muted" style="margin-left:4px">Professional Experience</div>
     <div style="display:flex;flex-direction:column;gap:16px">
@@ -277,7 +295,7 @@
           <div class="exp-badge">Enterprise Revenue Ops</div>
         </div>
         <div class="exp-bullets">
-          <p class="exp-bullet"><strong>Scale &amp; Stability</strong>Managed >$400M portfolio growth (+10% YoY) while serving as the primary defense against "Campaign Abruption" for High-Tier Fintech and Travel enterprises.</p>
+          <p class="exp-bullet"><strong>Scale &amp; Stability</strong>Managed &gt;$400M portfolio growth (+10% YoY) while serving as the primary defense against "Campaign Abruption" for High-Tier Fintech and Travel enterprises.</p>
           <p class="exp-bullet"><strong>Cross-Product Service Recovery</strong>Acted as cross-product and cross-team coordinator to close service gaps for large-spend enterprise accounts; delivered non-standard customized solutions across account structure, billing optimization, policy feedback, and allowlisting to safeguard at-risk revenue.</p>
           <p class="exp-bullet"><strong>Creative Optimization Program</strong>Led the Creative Optimization Program, diagnosing the gap between in-market assets and platform best practices; ran end-to-end creative iteration and production to generate HK$100K+ in incremental revenue.</p>
           <p class="exp-bullet"><strong>Agency Education &amp; Betas</strong>Architected a knowledge-sharing ecosystem for Big 4 agencies, enabling rapid beta adoption and generating $800K+ in incremental creative revenue.</p>
@@ -319,7 +337,6 @@
     </div>
   </section>
 
-  <!-- EDUCATION + CERTS -->
   <div class="bottom-grid">
     <div class="card">
       <div class="section-label-muted">Education</div>
@@ -351,7 +368,6 @@
     </div>
   </div>
 
-  <!-- SKILLS -->
   <section class="card">
     <div class="section-label-muted">Skills &amp; Expertise</div>
     <div class="skills-grid">
@@ -390,7 +406,6 @@
 
 </div>
 
-<!-- TWEAKS PANEL -->
 <div class="tweaks-panel" id="tweaksPanel">
   <div class="tweaks-title">
     <span>Tweaks</span>
@@ -421,6 +436,8 @@
     </div>
   </div>
 </div>
+
+<div id="copyToast">Email copied</div>
 
 <script>
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
@@ -469,6 +486,7 @@ function setPhotoShape(shape) {
 function saveState() {
   window.parent.postMessage({ type: '__edit_mode_set_keys', edits: state }, '*');
 }
+
 function closeTweaks() {
   document.getElementById('tweaksPanel').classList.remove('open');
   window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
@@ -478,18 +496,48 @@ window.addEventListener('message', e => {
   if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaksPanel').classList.add('open');
   if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaksPanel').classList.remove('open');
 });
+
 window.parent.postMessage({ type: '__edit_mode_available' }, '*');
 
-// Build email link at runtime to bypass Cloudflare obfuscation
-(function() {
-  var u = 'theockh7';
-  var d = 'gmail';
-  var t = 'com';
-  var el = document.getElementById('emailLink');
-  if (el) el.href = 'mai' + 'lto:' + u + '\x40' + d + '.' + t;
+(function () {
+  const email = 'theockh7@gmail.com';
+  const btn = document.getElementById('emailLink');
+  const toast = document.getElementById('copyToast');
+
+  if (!btn || !toast) return;
+
+  btn.addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    try {
+      await navigator.clipboard.writeText(email);
+
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      toast.textContent = 'Email copied';
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        btn.textContent = 'Email';
+        btn.classList.remove('copied');
+      }, 2000);
+
+    } catch (err) {
+      btn.textContent = email;
+      toast.textContent = 'Copy failed — email shown';
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.textContent = 'Email copied';
+        btn.textContent = 'Email';
+        btn.classList.remove('copied');
+      }, 2500);
+    }
+  });
 })();
 
-// Apply defaults
 setRadius(state.radius);
 setBg(state.bg);
 setPhotoShape(state.photoShape);
