@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theo Chui — Professional Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #f3f2f0;
+      background-image:
+        linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      color: #1d2226;
+      min-height: 100vh;
+    }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 48px 20px 72px; display: flex; flex-direction: column; gap: 20px; }
+
+    /* ── Cards ── */
+    .card {
+      background: white;
+      border: 1px solid #e9e5df;
+      border-radius: 28px;
+      padding: 36px 44px;
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,0.06);
+    }
+    .card-dark {
+      background: #1d2226;
+      border-radius: 28px;
+      padding: 36px 44px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.18), 0 10px 10px -5px rgba(0,0,0,0.08);
+    }
+    .card-hero {
+      position: relative;
+      overflow: hidden;
+      background: white;
+      border: 1px solid #e9e5df;
+      border-radius: 28px;
+      padding: 40px 48px;
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,0.06);
+    }
+    .card-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #eef4fc 0%, #ffffff 55%, #f3f2f0 100%);
+      pointer-events: none;
+    }
+    .card-hero > * { position: relative; }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: #0a66c2; margin-bottom: 6px;
+    }
+    .section-label-muted {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: #6d6860; margin-bottom: 14px;
+    }
+    .section-label-dark {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: #4d96d9; margin-bottom: 20px;
+    }
+
+    /* ── Hero ── */
+    .hero-inner { display: flex; gap: 28px; align-items: flex-start; }
+    .hero-photo {
+      width: 88px; height: 88px;
+      border-radius: 18px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid #e9e5df;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    }
+    .hero-name {
+      font-size: 44px; font-weight: 700;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      color: #1d2226; line-height: 1;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap;
+      align-items: center; gap: 8px;
+      margin-top: 10px;
+    }
+    .hero-location { font-size: 13px; color: #6d6860; font-weight: 500; }
+    .pill-link {
+      display: inline-flex; align-items: center;
+      border-radius: 9999px;
+      border: 1px solid #d6d0c8;
+      background: white;
+      padding: 5px 14px;
+      font-size: 12px; font-weight: 600; color: #38434f;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+      cursor: pointer; font-family: inherit;
+    }
+    .pill-link:hover { border-color: #0a66c2; color: #0a66c2; }
+
+    /* ── Copy toast ── */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: #1d2226; color: #fff;
+      font-size: 12px; font-weight: 600;
+      padding: 8px 20px; border-radius: 9999px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.18s, transform 0.18s;
+      z-index: 200; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .intent-text {
+      font-size: 14px; line-height: 1.7;
+      color: #38434f; font-style: italic;
+      margin-top: 16px; max-width: 620px;
+    }
+
+    /* ── Pillars ── */
+    .pillars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 44px; }
+    .pillar-label {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: #4d96d9; margin-bottom: 4px;
+    }
+    .pillar-text { font-size: 12px; color: #9e9689; line-height: 1.55; }
+
+    /* ── Experience ── */
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #f3f2f0;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .exp-period {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: #0a66c2; margin-bottom: 5px;
+    }
+    .exp-title { font-size: 20px; font-weight: 600; color: #1d2226; line-height: 1.2; }
+    .exp-company { font-size: 12px; color: #6d6860; font-weight: 600; font-style: italic; margin-top: 2px; }
+    .exp-badge {
+      background: #f3f2f0; border: 1px solid #e9e5df;
+      border-radius: 10px; padding: 4px 12px;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: #38434f; white-space: nowrap; flex-shrink: 0;
+    }
+    .exp-bullets { display: flex; flex-direction: column; gap: 12px; }
+    .exp-bullet { font-size: 12px; color: #38434f; line-height: 1.65; }
+    .exp-bullet strong { color: #1d2226; display: block; margin-bottom: 1px; font-size: 12px; }
+
+    /* ── Two-col bottom ── */
+    .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* ── Education ── */
+    .edu-item { padding-left: 12px; margin-bottom: 10px; }
+    .edu-item:last-child { margin-bottom: 0; }
+    .edu-degree { font-size: 12px; font-weight: 700; color: #1d2226; }
+    .edu-school { font-size: 11px; color: #6d6860; margin-top: 1px; }
+
+    /* ── Tags ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      background: #f3f2f0; color: #38434f;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 4px 10px; border-radius: 6px;
+      border: 1px solid #e9e5df;
+    }
+
+    /* ── Skills ── */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .skill-group-label {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: #0a66c2; margin-bottom: 8px;
+    }
+
+    /* ── Tweaks panel ── */
+    .tweaks-panel {
+      position: fixed; bottom: 24px; right: 24px;
+      background: white; border: 1px solid #e9e5df;
+      border-radius: 16px; padding: 16px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 100; width: 230px;
+      font-family: 'Inter', sans-serif;
+      display: none;
+    }
+    .tweaks-panel.open { display: block; }
+    .tweaks-title {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: #0a66c2; margin-bottom: 14px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tweaks-close { background: none; border: none; cursor: pointer; color: #9e9689; font-size: 16px; line-height: 1; padding: 0; }
+    .tweak-row { margin-bottom: 12px; }
+    .tweak-label { font-size: 10px; font-weight: 600; color: #6d6860; margin-bottom: 5px; }
+    .tweak-opts { display: flex; gap: 4px; }
+    .tweak-btn {
+      flex: 1; padding: 5px 8px;
+      border: 1px solid #e9e5df; border-radius: 6px;
+      background: white; color: #38434f;
+      font-size: 10px; font-weight: 600; cursor: pointer;
+      transition: all 0.12s;
+    }
+    .tweak-btn.active { background: #0a66c2; color: white; border-color: #0a66c2; }
+    .tweak-btn:hover:not(.active) { border-color: #0a66c2; color: #0a66c2; }
+
+    @media (max-width: 640px) {
+      .card, .card-dark, .card-hero { padding: 24px 20px; }
+      .hero-name { font-size: 30px; }
+      .hero-photo { width: 64px; height: 64px; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .bottom-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <header class="card-hero">
+    <div class="hero-inner">
+      <img class="hero-photo" src="assets/profile.png" alt="Theo Chui" />
+      <div style="flex:1">
+        <h1 class="hero-name">Theo Chui</h1>
+        <div class="hero-meta">
+          <span class="hero-location">Hong Kong SAR</span>
+          <button class="pill-link" id="emailBtn" type="button">Email</button>
+          <a class="pill-link" href="https://www.linkedin.com/in/theockh/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+        <div style="margin-top:16px">
+          <div class="section-label">Commander's Intent</div>
+          <p class="intent-text">Data-driven problem seeker and solution provider. I bridge the gap between consumer emotion and enterprise growth, synthesizing complex behavioral patterns into actionable revenue models.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STRATEGIC PILLARS -->
+  <section class="card-dark">
+    <div class="section-label-dark">Strategic Pillars</div>
+    <div class="pillars-grid">
+      <div>
+        <div class="pillar-label">Revenue Architecture</div>
+        <div class="pillar-text">Churn Defense (Account Abruptions) · 2x2 Growth Matrix · Multi-Million Gap Analysis · Agency RevOps</div>
+      </div>
+      <div>
+        <div class="pillar-label">Behavioral Strategy</div>
+        <div class="pillar-text">Narrative-driven Sales · Anchoring &amp; Persuasion · Consumer Psychology · Negotiation Strategy</div>
+      </div>
+      <div>
+        <div class="pillar-label">Data &amp; Automation</div>
+        <div class="pillar-text">SQL (BigQuery) · Python · Looker Studio · BI Dashboarding · Tagging Audits</div>
+      </div>
+      <div>
+        <div class="pillar-label">Digital Performance</div>
+        <div class="pillar-text">Full-Funnel Optimization · Search, DV360, SA360 · GA4 Execution · Beta Adoption Frameworks</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <div class="section-label-muted" style="margin-left:4px">Professional Experience</div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <article class="card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-period">Jul 2024 – Present</div>
+            <h3 class="exp-title">Agency Account Specialist</h3>
+            <div class="exp-company">MRM · Google Large Customer Sales (XWF Program) | Hong Kong SAR</div>
+          </div>
+          <div class="exp-badge">Enterprise Revenue Ops</div>
+        </div>
+        <div class="exp-bullets">
+          <p class="exp-bullet"><strong>Scale &amp; Stability</strong>Managed $457M portfolio growth (+9% YoY) while serving as the primary defense against "Campaign Abruption" for High-Tier Fintech and Travel enterprises.</p>
+          <p class="exp-bullet"><strong>The "Nestle" Rescue</strong>Orchestrated a high-stakes operational bridge for Nestle during a critical holiday agency transition; bypassed internal OOO bottlenecks to prevent a multimillion-dollar spend drop.</p>
+          <p class="exp-bullet"><strong>Agency Education &amp; Betas</strong>Architected a knowledge-sharing ecosystem for Big 4 agencies, enabling rapid beta adoption and generating $800K+ in incremental creative revenue.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-period">Oct 2020 – Apr 2024</div>
+            <h3 class="exp-title">Account Manager</h3>
+            <div class="exp-company">TDCX · Google Kickstart Sales (XWF Program) | Kuala Lumpur, Malaysia</div>
+          </div>
+          <div class="exp-badge">SME &amp; Key Accounts</div>
+        </div>
+        <div class="exp-bullets">
+          <p class="exp-bullet"><strong>Growth Matrix Strategy</strong>Applied a 2×2 prioritization framework (Spend vs. Headroom) to manage 300+ SMEs and 50+ Key Accounts, preventing unnoticed revenue leakage.</p>
+          <p class="exp-bullet"><strong>Unexpected Win</strong>Transformed a Search-skeptic e-commerce client into a Full-Funnel success; delivered 10x spend increase and 5x ROAS growth. Awarded 2023 Top Performer.</p>
+          <p class="exp-bullet"><strong>Narrative Sales Mastery</strong>Refined warm-call hooks based on vertical economics; scaled SME investment through advisory on the full Google Ads suite.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-period">2012 – 2019</div>
+            <h3 class="exp-title">Visual Merchandiser</h3>
+            <div class="exp-company">Fossil Group · Coach · Balmain | APAC Region</div>
+          </div>
+          <div class="exp-badge">Retail Execution</div>
+        </div>
+        <div class="exp-bullets">
+          <p class="exp-bullet"><strong>Environmental Narrative</strong>Engineered "Physical Sales Funnels" in high-end retail; synthesized merchandise budgets into layouts that provoked specific buying emotions.</p>
+          <p class="exp-bullet"><strong>Data-Driven Merchandising</strong>Justified VM decisions using Sell-through, Footfall, and LTV data; generated HK$500K+ incremental revenue via custom VM packages for wholesale partners.</p>
+          <p class="exp-bullet"><strong>Persuasion &amp; Negotiation</strong>Closed high-value wholesale deals using Anchoring, FOMO, and A/B testing of floor-plan structures in 70+ APAC locations.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION + CERTS -->
+  <div class="bottom-grid">
+    <div class="card">
+      <div class="section-label-muted">Education</div>
+      <div>
+        <div class="edu-item" style="border-left:2px solid #0a66c2">
+          <div class="edu-degree">Bachelor of Marketing</div>
+          <div class="edu-school">Swinburne University of Technology</div>
+        </div>
+        <div class="edu-item" style="border-left:2px solid #d6d0c8">
+          <div class="edu-degree">Professional Diploma, Visual Merchandising</div>
+          <div class="edu-school">Hong Kong Baptist University</div>
+        </div>
+        <div class="edu-item" style="border-left:2px solid #d6d0c8">
+          <div class="edu-degree">Higher Diploma in Business Administration</div>
+          <div class="edu-school">VTC School of Business</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label-muted">Certifications</div>
+      <div class="tags">
+        <span class="tag">Google BI (Coursera)</span>
+        <span class="tag">Google Data Analytics</span>
+        <span class="tag">Google Ads — All Products</span>
+        <span class="tag">Google Analytics 4</span>
+        <span class="tag">Google Marketing Platform</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <section class="card">
+    <div class="section-label-muted">Skills &amp; Expertise</div>
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-label">Performance Marketing</div>
+        <div class="tags">
+          <span class="tag">Google Ads</span><span class="tag">Search Ads</span><span class="tag">YouTube Ads</span>
+          <span class="tag">Display Ads</span><span class="tag">Demand Gen</span><span class="tag">Performance Max</span>
+          <span class="tag">Conversion Optimization</span><span class="tag">Media Planning</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Analytics &amp; BI</div>
+        <div class="tags">
+          <span class="tag">GA4</span><span class="tag">Looker Studio</span><span class="tag">BigQuery SQL</span>
+          <span class="tag">Python (pandas)</span><span class="tag">Tableau</span><span class="tag">Dashboard Dev</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Platforms &amp; Ad Tech</div>
+        <div class="tags">
+          <span class="tag">Google Marketing Platform</span><span class="tag">DV360</span><span class="tag">CM360</span>
+          <span class="tag">SA360</span><span class="tag">Merchant Center</span><span class="tag">Google Business Profile</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-label">Commercial &amp; Strategic</div>
+        <div class="tags">
+          <span class="tag">Enterprise Account Mgmt</span><span class="tag">Agency Partnership</span>
+          <span class="tag">Revenue Growth</span><span class="tag">Revenue Protection</span>
+          <span class="tag">Stakeholder Management</span><span class="tag">Cross-functional Collab</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast">Email copied</div>
+
+<!-- TWEAKS PANEL -->
+<div class="tweaks-panel" id="tweaksPanel">
+  <div class="tweaks-title">
+    <span>Tweaks</span>
+    <button class="tweaks-close" onclick="closeTweaks()">×</button>
+  </div>
+  <div class="tweak-row">
+    <div class="tweak-label">Card Radius</div>
+    <div class="tweak-opts">
+      <button class="tweak-btn" onclick="setRadius('8px')" id="radiusSharp">Sharp</button>
+      <button class="tweak-btn active" onclick="setRadius('28px')" id="radiusRound">Round</button>
+      <button class="tweak-btn" onclick="setRadius('48px')" id="radiusPill">Pill</button>
+    </div>
+  </div>
+  <div class="tweak-row">
+    <div class="tweak-label">Background</div>
+    <div class="tweak-opts">
+      <button class="tweak-btn active" onclick="setBg('warm')" id="bgWarm">Warm</button>
+      <button class="tweak-btn" onclick="setBg('white')" id="bgWhite">White</button>
+      <button class="tweak-btn" onclick="setBg('dark')" id="bgDark">Dark</button>
+    </div>
+  </div>
+  <div class="tweak-row">
+    <div class="tweak-label">Photo Shape</div>
+    <div class="tweak-opts">
+      <button class="tweak-btn active" onclick="setPhotoShape('rounded')" id="photoRounded">Rounded</button>
+      <button class="tweak-btn" onclick="setPhotoShape('circle')" id="photoCircle">Circle</button>
+      <button class="tweak-btn" onclick="setPhotoShape('square')" id="photoSquare">Square</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "radius": "28px",
+  "bg": "warm",
+  "photoShape": "rounded"
+}/*EDITMODE-END*/;
+
+let state = { ...TWEAK_DEFAULTS };
+
+function setRadius(r) {
+  document.querySelectorAll('.card,.card-dark,.card-hero').forEach(el => el.style.borderRadius = r);
+  ['radiusSharp','radiusRound','radiusPill'].forEach(id => document.getElementById(id).classList.remove('active'));
+  const map = { '8px':'radiusSharp', '28px':'radiusRound', '48px':'radiusPill' };
+  document.getElementById(map[r]).classList.add('active');
+  state.radius = r; saveState();
+}
+
+function setBg(mode) {
+  const body = document.body;
+  const bgs = {
+    warm:  { bg: '#f3f2f0', img: 'linear-gradient(to right,rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,0.04) 1px,transparent 1px)', size: '28px 28px' },
+    white: { bg: '#ffffff', img: 'none', size: 'auto' },
+    dark:  { bg: '#1d2226', img: 'none', size: 'auto' },
+  };
+  const b = bgs[mode];
+  body.style.background = b.bg;
+  body.style.backgroundImage = b.img;
+  body.style.backgroundSize = b.size;
+  ['bgWarm','bgWhite','bgDark'].forEach(id => document.getElementById(id).classList.remove('active'));
+  const map = { warm:'bgWarm', white:'bgWhite', dark:'bgDark' };
+  document.getElementById(map[mode]).classList.add('active');
+  state.bg = mode; saveState();
+}
+
+function setPhotoShape(shape) {
+  const photo = document.querySelector('.hero-photo');
+  const map = { rounded: '18px', circle: '9999px', square: '4px' };
+  photo.style.borderRadius = map[shape];
+  ['photoRounded','photoCircle','photoSquare'].forEach(id => document.getElementById(id).classList.remove('active'));
+  const idMap = { rounded:'photoRounded', circle:'photoCircle', square:'photoSquare' };
+  document.getElementById(idMap[shape]).classList.add('active');
+  state.photoShape = shape; saveState();
+}
+
+function saveState() {
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: state }, '*');
+}
+function closeTweaks() {
+  document.getElementById('tweaksPanel').classList.remove('open');
+  window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+}
+
+window.addEventListener('message', e => {
+  if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaksPanel').classList.add('open');
+  if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaksPanel').classList.remove('open');
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+// Email copy
+document.getElementById('emailBtn').addEventListener('click', function() {
+  navigator.clipboard.writeText('theockh7@gmail.com').then(function() {
+    var toast = document.getElementById('toast');
+    toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+  });
+});
+
+// Apply defaults
+setRadius(state.radius);
+setBg(state.bg);
+setPhotoShape(state.photoShape);
+</script>
+</body>
+</html>
